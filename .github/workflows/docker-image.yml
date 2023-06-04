@@ -34,10 +34,12 @@ jobs:
 
       - name: Deploy to EC2  # <-- Corrected indentation
         env:
-            PRIVATE_KEY: ${{ secrets.aws-key }}
-            HOSTNAME: ${{ secrets.HOST }}
-            USER_NAME: ${{ secrets.HOST_NAME }}
+            PRIVATE_KEY: ${{ secrets.SSH_KEY }}
+            HOSTNAME: ${{ secrets.HOST_IP }}
+            USER_NAME: ${{ secrets.HOST_USER }}
         run: |
+          echo "$PRIVATE_KEY" > key.pem && chmod 666 key.pem
+          ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME}
           echo "$PRIVATE_KEY" > key.pem
-          chmod 666 key.pem
+          
           ssh -o StrictHostKeyChecking=no -i key.pem $USER_NAME@$HOSTNAME "sudo docker rm -f springboot && docker rmi springboot:first s&& udo Docker pull ritikvirus/springboot_application:first && sudo docker run -d -p 8080:8080 ritikvirus/springboot_application:first --name springboot"
