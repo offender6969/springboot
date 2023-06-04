@@ -34,7 +34,7 @@ jobs:
 
       - name: Deploy to EC2  # <-- Corrected indentation
         env:
-            PRIVATE_KEY: ${{ secrets.aws-ssh }}
+            PRIVATE_KEY: ${{ secrets.SSH_KEY }}
             HOSTNAME: ${{ secrets.HOST_IP }}
             USER_NAME: ${{ secrets.HOST_USER }}
         run: |
