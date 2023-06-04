@@ -29,3 +29,15 @@ jobs:
 
       - name: Push Docker image to Docker Hub
         run: docker push ritikvirus/springboot_application:first
+      - name: Push Docker image to Docker Hub
+        run: docker push ritikvirus/springboot_application:first
+
+      - name: Deploy to EC2  # <-- Corrected indentation
+        env:
+            PRIVATE_KEY: ${{ secrets.SSHKEY }}
+            HOSTNAME: ${{ secrets.HOST }}
+            USER_NAME: ${{ secrets.HOST_NAME }}
+        run: |
+          echo "$PRIVATE_KEY" > key.pem
+          chmod 600 key.pem
+          ssh -o StrictHostKeyChecking=no -i key.pem $USER_NAME@$HOSTNAME "sudo docker rm -f springboot && docker rmi springboot:first s&& udo Docker pull ritikvirus/springboot_application:first && sudo docker run -d -p 8080:8080 ritikvirus/springboot_application:first --name springboot"
