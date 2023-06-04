@@ -38,7 +38,7 @@ jobs:
             HOSTNAME: ${{ secrets.HOST_IP }}
             USER_NAME: ${{ secrets.HOST_USER }}
         run: |
-          echo "$PRIVATE_KEY" > key.pem && chmod 666 key.pem
+          echo "$PRIVATE_KEY" > key.pem && chmod 600 key.pem
           ssh -o StrictHostKeyChecking=no -i key.pem ${USER_NAME}@${HOSTNAME}
               
           ssh -o StrictHostKeyChecking=no -i key.pem $USER_NAME@$HOSTNAME "sudo docker rm -f springboot && docker rmi springboot:first s&& udo Docker pull ritikvirus/springboot_application:first && sudo docker run -d -p 8080:8080 ritikvirus/springboot_application:first --name springboot"
