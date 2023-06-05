@@ -43,5 +43,5 @@ jobs:
               
            cd /home/ubuntu &&
            sudo docker pull ritikvirus/springboot_application:first &&
-           sudo docker run -d -p 8080:8080 ritikvirus/springboot_application:first --name springboot
+           sudo docker run -d -p 8081:8080 ritikvirus/springboot_application:first --name springboot
           '
